@@ -1,10 +1,13 @@
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.utils import simplejson
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
+from django.views.decorators.csrf import csrf_exempt
+
 
 from hitcount.utils import get_ip
 from hitcount.models import Hit, HitCount, BlacklistIP, BlacklistUserAgent
+
+import logging
 
 def _update_hit_count(request, hitcount):
     '''
@@ -79,6 +82,7 @@ def json_error_response(error_message):
 # right now the django handling isn't great.  should return the current
 # hit count so we could update it via javascript (since each view will
 # be one behind).
+@csrf_exempt
 def update_hit_count_ajax(request):
     '''
     Ajax call that can be used to update a hit count.
@@ -88,6 +92,8 @@ def update_hit_count_ajax(request):
 
     See template tags for how to implement.
     '''
+
+    logging.error("update_hit_count_ajax(%s)", request)
 
     # make sure this is an ajax request
     if not request.is_ajax():

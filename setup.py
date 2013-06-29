@@ -6,14 +6,14 @@ def read(fname):
  
 setup(
     name = "django-hitcount",
-    version = "0.2",
+    version = "0.3",
     url = 'http://github.com/thornomad/django-hitcount',
     license = 'BSD',
     description = "Django hit counter application that tracks the number of hits/views for chosen objects",
     long_description = read('README.md'),
  
-    author = 'Damon Timm',
-    author_email = 'damontimm@gmail.com',
+    author = 'Kevin Dahlhausen changes to work of Damon Timm',
+    author_email = 'kevin.dahlhausen@gmail.com',
  
     packages = find_packages(),
     
@@ -26,4 +26,6 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
+
+    zip_safe = False,
 )

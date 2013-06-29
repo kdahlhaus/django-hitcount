@@ -1,5 +1,5 @@
 import datetime
-
+import django
 from django.db import models
 from django.conf import settings
 from django.db.models import F
@@ -62,7 +62,8 @@ class HitManager(models.Manager):
         hours, and weeks.  It's creating a datetime.timedelta object.
         '''
         grace = getattr(settings, 'HITCOUNT_KEEP_HIT_ACTIVE', {'days':7})
-        period = datetime.datetime.utcnow() - datetime.timedelta(**grace)
+        #period = datetime.datetime.utcnow() - datetime.timedelta(**grace)
+        period = django.utils.timezone.now() - datetime.timedelta(**grace)
         queryset = self.get_query_set()
         queryset = queryset.filter(created__gte=period)
         return queryset.filter(*args, **kwargs)
@@ -75,8 +76,9 @@ class HitCount(models.Model):
     Model that stores the hit totals for any content object.
 
     '''
-    hits            = models.PositiveIntegerField(default=0)
-    modified        = models.DateTimeField(default=datetime.datetime.utcnow)
+    hits            = models.PositiveIntegerField(default=1)
+    #modified        = models.DateTimeField(default=datetime.datetime.utcnow)
+    modified        = models.DateTimeField(default=django.utils.timezone.now)
     content_type    = models.ForeignKey(ContentType,
                         verbose_name="content type",
                         related_name="content_type_set_for_%(class)s",)
@@ -95,7 +97,8 @@ class HitCount(models.Model):
         return u'%s' % self.content_object
 
     def save(self, *args, **kwargs):
-        self.modified = datetime.datetime.utcnow()
+        #self.modified = datetime.datetime.utcnow()
+        self.modified = django.utils.timezone.now()
 
         if not self.pk and self.object_pk and self.content_type:
             # Because we are using a models.TextField() for `object_pk` to
@@ -131,7 +134,8 @@ class HitCount(models.Model):
         hours, and weeks.  It's creating a datetime.timedelta object.
         '''
         assert kwargs, "Must provide at least one timedelta arg (eg, days=1)"
-        period = datetime.datetime.utcnow() - datetime.timedelta(**kwargs)
+        #period = datetime.datetime.utcnow() - datetime.timedelta(**kwargs)
+        period = django.utilz.timezone.now() - datetime.timedelta(**kwargs)
         return self.hit_set.filter(created__gte=period).count()
 
     def get_content_object_url(self):
@@ -180,7 +184,8 @@ class Hit(models.Model):
         if not self.created:
             self.hitcount.hits = F('hits') + 1
             self.hitcount.save()
-            self.created = datetime.datetime.utcnow()
+            #self.created = datetime.datetime.utcnow()
+            self.created = django.utils.timezone.now()
 
         super(Hit, self).save(*args, **kwargs)
 

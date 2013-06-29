@@ -1,3 +1,7 @@
+7/28/13: 
+KPD - created fork to add exclusion of object owner
+
+
 *NOTE* (02/23/2013) - I have not been actively maintaining this app (as anyone
 can tell from my levels of participation these last few years).  I apologize
 for that because I, myself, hate seeing open source solutions fade with time.
