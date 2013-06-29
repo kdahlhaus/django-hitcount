@@ -76,7 +76,7 @@ class HitCount(models.Model):
     Model that stores the hit totals for any content object.
 
     '''
-    hits            = models.PositiveIntegerField(default=1)
+    hits            = models.PositiveIntegerField(default=0)
     #modified        = models.DateTimeField(default=datetime.datetime.utcnow)
     modified        = models.DateTimeField(default=django.utils.timezone.now)
     content_type    = models.ForeignKey(ContentType,
