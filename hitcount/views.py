@@ -1,5 +1,6 @@
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
-from django.utils import simplejson
+#from django.utils import simplejson
+import json as simplejson
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
